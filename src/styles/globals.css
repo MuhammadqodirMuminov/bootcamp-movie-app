@@ -9,7 +9,7 @@
 	}
 
 	header {
-		@apply flex items-center justify-between py-4 px-4 w-full fixed top-0 transition-all lg:px-10 lg:py-5;
+		@apply flex items-center justify-between py-4 px-4 w-full fixed top-0 transition-all lg:px-10 lg:py-4;
 	}
 }
 
