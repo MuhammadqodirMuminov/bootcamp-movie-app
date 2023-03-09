@@ -21,7 +21,12 @@ const Header = () => {
 	}, []);
 
 	return (
-		<header className={`${scrolled ? "bg-[#E10856]" : "#1D1D1D"} shadow-lg z-50`}>
+		<header
+			className={`${
+				scrolled
+					? "bg-[#E10856] shadow-lg z-50"
+					: "bg-[#1D1D1D] shadow-lg z-50 "
+			} `}>
 			<div className="flex items-center space-x-2 md:space-x-10">
 				<Image
 					src={"/logo.svg"}

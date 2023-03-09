@@ -5,7 +5,7 @@
 /* HTML ROOTS */
 @layer base {
 	body {
-		@apply bg-[#141414] text-white;
+		@apply bg-[#141414] text-white !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-[#E10456];
 	}
 
 	header {

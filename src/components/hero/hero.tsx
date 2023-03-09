@@ -11,7 +11,6 @@ const Hero = ({ trending }: HeroProps): JSX.Element => {
 
 	useEffect(() => {
 		const randomMovie = trending[Math.floor(Math.random() * trending.length)];
-		console.log(Math.floor(Math.random() * trending.length));
 
 		setMovie(randomMovie);
 	}, [trending]);
@@ -23,7 +22,7 @@ const Hero = ({ trending }: HeroProps): JSX.Element => {
 					src={`${BASE_IMAGE_URL}${
 						movie?.backdrop_path || movie?.poster_path
 					}`}
-					alt={movie?.original_name}
+					alt={`${movie?.original_name}`}
 					fill
 					className=" object-cover "
 				/>
@@ -36,7 +35,7 @@ const Hero = ({ trending }: HeroProps): JSX.Element => {
 			<div className="flex items-center space-x-4">
 				<ReactStars
 					count={10}
-					value={movie?.vote_average}
+					value={Math.floor(movie?.vote_average)}
 					color2={"#fff"}
 					edit={false}
 					size={32}
@@ -54,7 +53,7 @@ const Hero = ({ trending }: HeroProps): JSX.Element => {
 
 			<div className="w-[200px] h-[56px] font-bold bg-white/40 text-black  space-x-2 rounded-full flex items-center justify-center">
 				<TbPlayerPlay className=" h-5 w-5 md:h-8  md:w-8" />{" "}
-				<button p-16> Watch more</button>
+				<button> Watch more</button>
 			</div>
 		</div>
 	);
