@@ -4,7 +4,7 @@ import { IRow } from "./row.interface";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import Thumbnail from "../thumbnail/thumbnail";
 
-const Row = ({ title, movies }: IRow) => {
+const Row = ({ title, movies, isBig = false }: IRow) => {
 	const [moved, setMoved] = useState<boolean>(false);
 	const coruselRef = useRef<HTMLDivElement>(null);
 	const handleClick = (direction: "right" | "left") => {
@@ -19,6 +19,10 @@ const Row = ({ title, movies }: IRow) => {
 					: scrollLeft + clientWidth;
 
 			coruselRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+
+			if (direction === "left" && scrollTo === 0) {
+				setMoved(false);
+			}
 		}
 	};
 
@@ -30,15 +34,19 @@ const Row = ({ title, movies }: IRow) => {
 
 			<div className=" group relative md:ml-2">
 				<AiFillCaretLeft
-					className=" absolute top-0 bottom-0 left-2 z-40 m-auto h-6 w-6 cursor-pointer opacity-0 group-hover:opacity-100 transition duration-200 hover:scale-125"
+					className={`absolute top-0 bottom-0 left-2 z-40 m-auto h-6 w-6 cursor-pointer opacity-0 group-hover:opacity-100 transition duration-200 hover:scale-125 ${
+						!moved && "hidden"
+					}`}
 					onClick={() => handleClick("left")}
 				/>
 
 				<div
-					className="flex items-center space-x-1  scrollbar-hide overflow-x-scroll overflow-hidden md:space-x-4 "
+					className={`flex items-center ${
+						!isBig && "space-x-1 md:space-x-4"
+					}   scrollbar-hide overflow-x-scroll overflow-hidden `}
 					ref={coruselRef}>
-					{movies.map((item) => (
-						<Thumbnail key={item.id} movies={item} />
+					{movies?.map((item) => (
+						<Thumbnail key={item.id} movies={item} isBig={isBig} />
 					))}
 				</div>
 

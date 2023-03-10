@@ -1,5 +1,6 @@
 import { IMovie } from "src/interfaces/app.interface";
 
 export interface ThumbnailProps {
-	movies: IMovie;
+  movies: IMovie;
+  isBig?: boolean;
 }
