@@ -1,11 +1,13 @@
 import Image from "next/image";
 import { VscAccount } from "react-icons/vsc";
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
 import { BiBell } from "react-icons/bi";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "src/context/auth.context";
 
 const Header = () => {
 	const [scrolled, setScrolled] = useState(false);
+	const { logOut } = useContext(AuthContext);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -48,6 +50,10 @@ const Header = () => {
 				<p className="hidden lg:inline text-sm">Kids</p>
 				<BiBell className="w-6 h-6 cursor-pointer" />
 				<VscAccount className="w-6 h-6 cursor-pointer" />
+				<AiOutlineLogout
+					className="w-6 h-6 cursor-pointer"
+					onClick={logOut}
+				/>
 			</div>
 		</header>
 	);

@@ -1,27 +1,37 @@
 import { Formik, Form } from "formik";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useState, useContext } from "react";
 import { TextFeild } from "src/components";
+import { AuthContext } from "src/context/auth.context";
 import * as Yup from "yup";
 
 const Auth = () => {
 	const [auth, setAuth] = useState<"signIn" | "signUp">("signIn");
+	const { error, isLoading, signIn, signUp, user } = useContext(AuthContext);
+	const router = useRouter();
 
+	if (user) router.push("/");
+	if (!isLoading) return <>{null}</>;
 	const toogleSignIn = (state: "signIn" | "signUp") => {
 		setAuth(state);
 	};
 
-  const onSubmit = (formdata: { emai: string; password: string }) => {
-    // git
-  };
+	const onSubmit = (formdata: { email: string; password: string }) => {
+		if (auth === "signIn") {
+			signIn(formdata.email, formdata.password);
+		} else {
+			signUp(formdata.email, formdata.password);
+		}
+	};
 
 	const validation = Yup.object({
 		email: Yup.string()
 			.email("Enter a valid email")
 			.required("Email is required"),
 		password: Yup.string()
-			.min(4, "4 is min character")
+			.min(6, "6 is min character")
 			.required("Password is required"),
 	});
 
@@ -62,6 +72,10 @@ const Auth = () => {
 					{auth === "signUp" ? "Sign Up" : "Sign In"}
 				</h1>
 
+				{error ? (
+					<p className="text-center text-red-500 font-bold">{error}</p>
+				) : null}
+
 				<div className=" space-y-8">
 					<Formik
 						validationSchema={validation}
@@ -79,19 +93,11 @@ const Auth = () => {
 								type={"password"}
 							/>
 
-							{auth === "signIn" ? (
-								<button
-									type="submit"
-									className="w-full bg-[#E10856] py-3 mt-4 font-semibold rounded">
-									Sign in
-								</button>
-							) : (
-								<button
-									type="submit"
-									className="w-full bg-[#E10856] py-3 mt-4 font-semibold rounded">
-									Sign Up
-								</button>
-							)}
+							<button
+								type="submit"
+								className="w-full bg-[#E10856] py-3 mt-4 font-semibold rounded">
+								{auth === "signIn" ? "Sign In" : "Sign Up"}
+							</button>
 						</Form>
 					</Formik>
 

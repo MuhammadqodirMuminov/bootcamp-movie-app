@@ -1,8 +1,10 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Header, Hero, Row } from "src/components";
+import { AuthContext } from "src/context/auth.context";
 import { IMovie } from "src/interfaces/app.interface";
 import { API_REQUEST } from "src/services/api.service";
+import { useContext } from "react";
 
 export default function Home({
 	trending,
@@ -12,6 +14,10 @@ export default function Home({
 	NowPlaying,
 	Latest,
 }: HomeProps): JSX.Element {
+	const { isLoading } = useContext(AuthContext);
+
+	if (isLoading) return <>{null}</>;
+
 	return (
 		<div className=" relative h-[200vh]">
 			<Head>
