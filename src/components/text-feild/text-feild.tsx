@@ -1,10 +1,8 @@
-import { ErrorMessage, FieldHookConfig } from "formik";
-import { useField } from "formik";
-import { TextFeildProps } from "./textfeild.props";
+import { ErrorMessage, FieldHookConfig, useField } from "formik";
+import { TextFieldProps } from "./textfeild.props";
 
-const TextFeild = ({ ...props }: TextFeildProps & FieldHookConfig<string>) => {
+const TextFeild = (props: TextFieldProps & FieldHookConfig<string>) => {
 	const [feild, meta] = useField(props);
-
 
 	return (
 		<div className="w-full inline-block">
@@ -12,7 +10,7 @@ const TextFeild = ({ ...props }: TextFeildProps & FieldHookConfig<string>) => {
 				className={`inline-block w-full ${
 					meta.touched && meta.error && "border-2 border-red-500"
 				}`}>
-				<input {...props} className="input" {...feild} />
+				<input className="input" {...props} {...feild} />
 			</label>
 			<p className="text-red-500">
 				<ErrorMessage name={`${feild.name}`} />

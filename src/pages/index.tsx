@@ -1,10 +1,11 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { Header, Hero, Row } from "src/components";
+import { Header, Hero,    Modal,    Row } from "src/components";
 import { AuthContext } from "src/context/auth.context";
 import { IMovie } from "src/interfaces/app.interface";
 import { API_REQUEST } from "src/services/api.service";
 import { useContext } from "react";
+import { useInfoStore } from "src/store";
 
 export default function Home({
 	trending,
@@ -15,6 +16,9 @@ export default function Home({
 	Latest,
 }: HomeProps): JSX.Element {
 	const { isLoading } = useContext(AuthContext);
+	const { modal } = useInfoStore();
+
+	console.log(modal);
 
 	if (isLoading) return <>{null}</>;
 
@@ -40,29 +44,21 @@ export default function Home({
 					<Row title="Latest" movies={Latest} />
 				</section>
 			</main>
+			{modal && <Modal />}
 		</div>
 	);
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-	const trending = await fetch(API_REQUEST.trending).then((response) =>
-		response.json()
-	);
-	const topRated = await fetch(API_REQUEST.top_rated).then((response) =>
-		response.json()
-	);
-	const TvTopRated = await fetch(API_REQUEST.tv_top_rated).then((response) =>
-		response.json()
-	);
-	const popular = await fetch(API_REQUEST.popular).then((response) =>
-		response.json()
-	);
-	const NowPlaying = await fetch(API_REQUEST.now_playing).then((response) =>
-		response.json()
-	);
-	const Latest = await fetch(API_REQUEST.latest).then((response) =>
-		response.json()
-	);
+	const [trending, topRated, TvTopRated, popular, NowPlaying, Latest] =
+		await Promise.all([
+			fetch(API_REQUEST.trending).then((response) => response.json()),
+			fetch(API_REQUEST.top_rated).then((response) => response.json()),
+			fetch(API_REQUEST.tv_top_rated).then((response) => response.json()),
+			fetch(API_REQUEST.popular).then((response) => response.json()),
+			fetch(API_REQUEST.now_playing).then((response) => response.json()),
+			fetch(API_REQUEST.latest).then((response) => response.json()),
+		]);
 
 	return {
 		props: {

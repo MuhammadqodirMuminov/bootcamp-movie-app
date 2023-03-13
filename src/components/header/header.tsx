@@ -4,6 +4,7 @@ import { AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
 import { BiBell } from "react-icons/bi";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "src/context/auth.context";
+import logo from "../../public/logo.svg"
 
 const Header = () => {
 	const [scrolled, setScrolled] = useState(false);
@@ -31,7 +32,7 @@ const Header = () => {
 			} `}>
 			<div className="flex items-center space-x-2 md:space-x-10">
 				<Image
-					src={"/logo.svg"}
+					src={logo}
 					alt={"logo"}
 					width={56}
 					height={56}
