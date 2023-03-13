@@ -17,3 +17,8 @@ export interface IMovie {
 	vote_count: number;
 	origin_country: string[];
 }
+
+
+export interface Element {
+	type: "Trailer" | "Behind the Scenes" | "Teaser" | "Featurette";
+}
