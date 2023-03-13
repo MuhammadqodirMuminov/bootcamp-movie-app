@@ -1,6 +1,6 @@
 import MuiModal from "@mui/material/Modal";
 import { useInfoStore } from "src/store";
-import { FaTimes, FaPlay } from "react-icons/fa";
+import { FaTimes, FaPlay, FaPause } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Element } from "src/interfaces/app.interface";
 import ReactPlayer from "react-player";
@@ -12,6 +12,7 @@ import { AiFillLike } from "react-icons/ai";
 const Modal = () => {
 	const [trailer, setTrailer] = useState<string>("");
 	const [muted, setMuted] = useState<boolean>(true);
+	const [play, setPlay] = useState<boolean>(true);
 
 	const base_url = process.env.NEXT_PUBLIC_API_DOMAIN as string;
 	const api_key = process.env.NEXT_PUBLIC_API_KEY as string;
@@ -58,15 +59,26 @@ const Modal = () => {
 						url={`https://www.youtube.com/watch?v=${trailer}`}
 						width={"100%"}
 						height={"100%"}
-						playing={true}
+						playing={play}
 						style={{ position: "absolute", top: 0, left: 0 }}
 						muted={muted}
 					/>
 					<div className=" absolute bottom-10 flex items-center justify-center px-18">
 						<div className=" flex space-x-2 items-center">
-							<button className=" flex items-center gap-x-2 rounded  py-4 bg-white px-8 text-xl text-black transition hover:bg-[#e6e6e6]">
-								<FaPlay className=" h-7 w-7 text-black" />
-								Play
+							<button
+								onClick={() => setPlay((prev: boolean) => !prev)}
+								className=" flex items-center gap-x-2 rounded  py-4 bg-white px-8 text-xl text-black transition hover:bg-[#e6e6e6]">
+								{play ? (
+									<>
+										<FaPause className=" h-7 w-7 text-black" />
+										Pause
+									</>
+								) : (
+									<>
+										<FaPlay className=" h-7 w-7 text-black" />
+										Play
+									</>
+								)}
 							</button>
 							<button className="modalButton ">
 								<BiPlus className="w-6 h-6" />
@@ -94,7 +106,9 @@ const Modal = () => {
 							<p className="font-semibold text-green-400">
 								{Currentmovies!.vote_average * 10}% Match
 							</p>
-							<p className="font-light">{Currentmovies.first_air_date}</p>
+							<p className="font-light">
+								{Currentmovies.first_air_date}
+							</p>
 							<div className="flex h-4 items-center justify-center rounded border border-white/40 px-1.5 text-xs">
 								HD
 							</div>
