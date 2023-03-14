@@ -21,7 +21,6 @@ export const useAuth = () => {
 		await createUserWithEmailAndPassword(auth, email, password)
 			.then((res) => {
 				SetUser(res.user);
-
 				fetch("/api/costumer", {
 					method: "POST",
 					headers: { "Content-Type": "application/Json" },

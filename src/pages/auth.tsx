@@ -1,7 +1,7 @@
 import { Formik, Form } from "formik";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useState, useContext } from "react";
 import { TextFeild } from "src/components";
 import { AuthContext } from "src/context/auth.context";
@@ -10,11 +10,8 @@ import logo from "../public/logo.svg";
 
 const Auth = () => {
 	const [auth, setAuth] = useState<"signIn" | "signUp">("signIn");
-	const { error, isLoading, signIn, signUp, user } = useContext(AuthContext);
-	const router = useRouter();
+	const { error,  signIn, signUp, user } = useContext(AuthContext);
 
-	if (user) router.push("/");
-	if (!isLoading) return <>{null}</>;
 	const toogleSignIn = (state: "signIn" | "signUp") => {
 		setAuth(state);
 	};
@@ -129,4 +126,16 @@ const Auth = () => {
 	);
 };
 
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+	const user_id = req.cookies.user_id;
+
+	if (user_id) {
+		return {
+			redirect: { destination: "/", permanent: false },
+		};
+	}
+	return {
+		props: {},
+	};
+};
 export default Auth;
