@@ -4,7 +4,8 @@ import { AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
 import { BiBell } from "react-icons/bi";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "src/context/auth.context";
-import logo from "../../public/logo.svg"
+import logo from "../../public/logo.svg";
+import Link from "next/link";
 
 const Header = () => {
 	const [scrolled, setScrolled] = useState(false);
@@ -50,7 +51,9 @@ const Header = () => {
 				<AiOutlineSearch className="w-6 h-6 cursor-pointer" />
 				<p className="hidden lg:inline text-sm">Kids</p>
 				<BiBell className="w-6 h-6 cursor-pointer" />
-				<VscAccount className="w-6 h-6 cursor-pointer" />
+				<Link href="/account">
+					<VscAccount className="w-6 h-6 cursor-pointer" />
+				</Link>
 				<AiOutlineLogout
 					className="w-6 h-6 cursor-pointer"
 					onClick={logOut}
