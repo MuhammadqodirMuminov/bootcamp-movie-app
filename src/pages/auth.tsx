@@ -18,10 +18,20 @@ const Auth = () => {
 		setAuth(state);
 	};
 
-	const onSubmit = (formdata: { email: string; password: string }) => {
+	const onSubmit = async (formdata: { email: string; password: string }) => {
 		if (auth === "signIn") {
 			signIn(formdata.email, formdata.password);
 		} else {
+			const response = await fetch("/api/costumer", {
+				method: "POST",
+				headers: { "Content-Type": "application/Json" },
+				body: JSON.stringify({ email: formdata.email }),
+			});
+
+			const data = await response.json();
+
+			console.log(data);
+
 			signUp(formdata.email, formdata.password);
 		}
 	};

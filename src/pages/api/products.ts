@@ -17,8 +17,7 @@ export default async function handler(
 		});
 
 		return res.status(200).json({ products });
-	} else if (method === "POST") {
-	} else {
+	}  else {
 		res.status(400).json({ message: "Invalid method" });
 	}
 }

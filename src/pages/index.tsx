@@ -18,9 +18,9 @@ export default function Home({
 }: HomeProps): JSX.Element {
 	const { isLoading } = useContext(AuthContext);
 	const { modal } = useInfoStore();
-	const subscription: boolean = true;
+	const subscription: boolean = false;
 
-	console.log(products);
+	
 
 	if (isLoading) return <>{null}</>;
 
