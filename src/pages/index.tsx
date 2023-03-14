@@ -24,7 +24,7 @@ export default function Home({
 
 	if (isLoading) return <>{null}</>;
 
-	// if (!subscription) return <SubscriptionPlan products={products} />;
+	if (!subscription) return <SubscriptionPlan products={products} />;
 
 	return (
 		<div
