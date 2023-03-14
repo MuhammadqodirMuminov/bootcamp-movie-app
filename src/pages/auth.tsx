@@ -6,6 +6,7 @@ import { useState, useContext } from "react";
 import { TextFeild } from "src/components";
 import { AuthContext } from "src/context/auth.context";
 import * as Yup from "yup";
+import logo from "../public/logo.svg";
 
 const Auth = () => {
 	const [auth, setAuth] = useState<"signIn" | "signUp">("signIn");
@@ -22,16 +23,6 @@ const Auth = () => {
 		if (auth === "signIn") {
 			signIn(formdata.email, formdata.password);
 		} else {
-			const response = await fetch("/api/costumer", {
-				method: "POST",
-				headers: { "Content-Type": "application/Json" },
-				body: JSON.stringify({ email: formdata.email }),
-			});
-
-			const data = await response.json();
-
-			console.log(data);
-
 			signUp(formdata.email, formdata.password);
 		}
 	};
@@ -70,7 +61,7 @@ const Auth = () => {
 			/>
 
 			<Image
-				src={"/logo.svg"}
+				src={logo}
 				alt={"logo"}
 				width={56}
 				height={56}

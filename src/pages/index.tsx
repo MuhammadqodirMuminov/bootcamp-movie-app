@@ -14,17 +14,16 @@ export default function Home({
 	popular,
 	NowPlaying,
 	Latest,
-	products,
+  products,
+  subscription
 }: HomeProps): JSX.Element {
 	const { isLoading } = useContext(AuthContext);
 	const { modal } = useInfoStore();
-	const subscription: boolean = false;
 
-	
 
 	if (isLoading) return <>{null}</>;
 
-	if (!subscription) return <SubscriptionPlan products={products} />;
+	if (!subscription.length) return <SubscriptionPlan products={products} />;
 
 	return (
 		<div
@@ -56,7 +55,12 @@ export default function Home({
 	);
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
+	req,
+}) => {
+
+const user_id = req.cookies.user_id
+
 	const [
 		trending,
 		topRated,
@@ -65,6 +69,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
 		NowPlaying,
 		Latest,
 		products,
+		subscription,
 	] = await Promise.all([
 		fetch(API_REQUEST.trending).then((response) => response.json()),
 		fetch(API_REQUEST.top_rated).then((response) => response.json()),
@@ -73,6 +78,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
 		fetch(API_REQUEST.now_playing).then((response) => response.json()),
 		fetch(API_REQUEST.latest).then((response) => response.json()),
 		fetch(API_REQUEST.products_list).then((response) => response.json()),
+		fetch(`${API_REQUEST.subscription}/${user_id}`).then((response) =>
+			response.json()
+		),
 	]);
 
 	return {
@@ -84,6 +92,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
 			NowPlaying: NowPlaying.results,
 			Latest: Latest.results || trending.results.reverse(),
 			products: products.products.data,
+			subscription: subscription.subscription.data
 		},
 	};
 };
@@ -96,4 +105,5 @@ interface HomeProps {
 	NowPlaying: IMovie[];
 	Latest: IMovie[];
 	products: Product[];
+	subscription: string[]
 }
