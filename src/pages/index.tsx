@@ -95,5 +95,5 @@ interface HomeProps {
 	popular: IMovie[];
 	NowPlaying: IMovie[];
 	Latest: IMovie[];
-	products: Product;
+	products: Product[];
 }
