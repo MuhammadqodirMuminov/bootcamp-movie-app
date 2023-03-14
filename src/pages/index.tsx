@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Header, Hero, Modal, Row, SubscriptionPlan } from "src/components";
 import { AuthContext } from "src/context/auth.context";
-import { IMovie } from "src/interfaces/app.interface";
+import { IMovie, Product } from "src/interfaces/app.interface";
 import { API_REQUEST } from "src/services/api.service";
 import { useContext } from "react";
 import { useInfoStore } from "src/store";
@@ -14,14 +14,17 @@ export default function Home({
 	popular,
 	NowPlaying,
 	Latest,
+	products,
 }: HomeProps): JSX.Element {
 	const { isLoading } = useContext(AuthContext);
 	const { modal } = useInfoStore();
 	const subscription: boolean = false;
 
+	console.log(products);
+
 	if (isLoading) return <>{null}</>;
 
-	if (!subscription) return <SubscriptionPlan />;
+	// if (!subscription) return <SubscriptionPlan products={products} />;
 
 	return (
 		<div
@@ -54,15 +57,23 @@ export default function Home({
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-	const [trending, topRated, TvTopRated, popular, NowPlaying, Latest] =
-		await Promise.all([
-			fetch(API_REQUEST.trending).then((response) => response.json()),
-			fetch(API_REQUEST.top_rated).then((response) => response.json()),
-			fetch(API_REQUEST.tv_top_rated).then((response) => response.json()),
-			fetch(API_REQUEST.popular).then((response) => response.json()),
-			fetch(API_REQUEST.now_playing).then((response) => response.json()),
-			fetch(API_REQUEST.latest).then((response) => response.json()),
-		]);
+	const [
+		trending,
+		topRated,
+		TvTopRated,
+		popular,
+		NowPlaying,
+		Latest,
+		products,
+	] = await Promise.all([
+		fetch(API_REQUEST.trending).then((response) => response.json()),
+		fetch(API_REQUEST.top_rated).then((response) => response.json()),
+		fetch(API_REQUEST.tv_top_rated).then((response) => response.json()),
+		fetch(API_REQUEST.popular).then((response) => response.json()),
+		fetch(API_REQUEST.now_playing).then((response) => response.json()),
+		fetch(API_REQUEST.latest).then((response) => response.json()),
+		fetch(API_REQUEST.products_list).then((response) => response.json()),
+	]);
 
 	return {
 		props: {
@@ -72,6 +83,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
 			popular: popular.results,
 			NowPlaying: NowPlaying.results,
 			Latest: Latest.results || trending.results.reverse(),
+			products: products.products.data,
 		},
 	};
 };
@@ -83,4 +95,5 @@ interface HomeProps {
 	popular: IMovie[];
 	NowPlaying: IMovie[];
 	Latest: IMovie[];
+	products: Product;
 }
