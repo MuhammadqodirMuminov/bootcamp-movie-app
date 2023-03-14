@@ -2,19 +2,17 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
-	
 	User,
 } from "firebase/auth";
 import { auth } from "src/firebase";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-
 export const useAuth = () => {
-	const [isLoading, setisLoading] = useState<Boolean>(false);
+	const [isLoading, setisLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>("");
-	const [user, SetUser] = useState<User | null >();
-  const router = useRouter();
+	const [user, SetUser] = useState<User | null>(null);
+	const router = useRouter();
 
 	const signUp = async (email: string, password: string) => {
 		setisLoading(true);
