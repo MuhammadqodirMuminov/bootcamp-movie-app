@@ -26,7 +26,8 @@ export const useAuth = () => {
 					headers: { "Content-Type": "application/Json" },
 					body: JSON.stringify({ email: res.user.email, user_id: res.user.uid }),
 				});
-				Cookies.set("user_id", res.user.uid);
+        Cookies.set("user_id", res.user.uid);
+        router.replace(router.asPath)
 				router.push("/");
 				setisLoading(true);
 			})

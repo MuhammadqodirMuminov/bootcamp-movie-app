@@ -4,6 +4,7 @@ import { Header, Hero, Modal, Row, SubscriptionPlan } from "src/components";
 import { IMovie, Product } from "src/interfaces/app.interface";
 import { API_REQUEST } from "src/services/api.service";
 import { useInfoStore } from "src/store";
+import { getdata } from "../helpers/products";
 
 export default function Home({
 	trending,
@@ -12,11 +13,11 @@ export default function Home({
 	popular,
 	NowPlaying,
 	Latest,
-  products,
-  subscription
+	products,
+	subscription,
+	list,
 }: HomeProps): JSX.Element {
 	const { modal } = useInfoStore();
-
 
 
 	if (!subscription.length) return <SubscriptionPlan products={products} />;
@@ -41,8 +42,9 @@ export default function Home({
 				<section className=" space-y-16">
 					<Row title="Top Rated" movies={topRated} />
 					<Row title="TV Shows" movies={TvTopRated} isBig={true} />
-					<Row title="Popular" movies={popular} isBig={true} />
+					{list.length ? <Row title="My List" movies={list.reverse()} /> : null}
 					<Row title="NowPlaying" movies={NowPlaying} />
+					<Row title="Popular" movies={popular} isBig={true} />
 					<Row title="Latest" movies={Latest} />
 				</section>
 			</main>
@@ -54,14 +56,13 @@ export default function Home({
 export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
 	req,
 }) => {
+	const user_id = req.cookies.user_id;
 
-  const user_id = req.cookies.user_id
-  
-  if (!user_id) {
-    return { 
-      redirect: { destination : "/auth", permanent : false}
-    }
-  }
+	if (!user_id) {
+		return {
+			redirect: { destination: "/auth", permanent: false },
+		};
+	}
 
 	const [
 		trending,
@@ -85,6 +86,8 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
 		),
 	]);
 
+	const myList = await getdata(user_id as string);
+
 	return {
 		props: {
 			trending: trending?.results,
@@ -94,7 +97,8 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
 			NowPlaying: NowPlaying.results,
 			Latest: Latest.results || trending.results.reverse(),
 			products: products.products.data,
-			subscription: subscription.subscription.data
+			subscription: subscription.subscription.data,
+			list: myList.map((c) => c.product),
 		},
 	};
 };
@@ -107,5 +111,6 @@ interface HomeProps {
 	NowPlaying: IMovie[];
 	Latest: IMovie[];
 	products: Product[];
-	subscription: string[]
+	subscription: string[];
+	list: IMovie[];
 }

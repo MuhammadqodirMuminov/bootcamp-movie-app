@@ -2,8 +2,6 @@ import Image from "next/image";
 import React from "react";
 import { useAuth } from "src/hooks/useAuth";
 import logo from "../../public/logo.svg";
-import { RiVipCrown2Line } from "react-icons/ri";
-import { AiOutlineHourglass, AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { ISubscription } from "./subscription-plan.props";
 import PlanCard from "../plan-card/plan-card";
 
@@ -11,7 +9,7 @@ const SubscriptionPlan = ({ products }: ISubscription) => {
 	const { logOut } = useAuth();
 
 	return (
-		<div className="min-h-screen mt-20">
+		<div className="min-h-screen ">
 			<div className="  border-b-2 border-gray-300/20 h-[10vh] flex items-center justify-between px-4 md:px-10">
 				<Image
 					src={logo}
@@ -34,7 +32,7 @@ const SubscriptionPlan = ({ products }: ISubscription) => {
 					Relaxing with watchin your favourite movies and tv
 				</p>
 			</div>
-			<div className="flex justify-center items-center">
+			<div className="flex justify-center items-center mt-20">
 				<div className=" md:px-4 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 space-y-4 md:space-y-0">
 					{products.reverse().map((product) => (
 						<PlanCard product={product} key={product.id} />
