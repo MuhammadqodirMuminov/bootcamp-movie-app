@@ -7,3 +7,4 @@ export { default as Modal } from "./modal/Modal";
 export { default as SubscriptionPlan } from "./subscription-plan/SubscriptionPlan";
 export { default as PlanCard } from "./plan-card/plan-card";
 export { default as MemebershopPlan } from "./memebershop-plan/memebershop-plan";
+export { default as NavItem } from "./navItem/navItem"

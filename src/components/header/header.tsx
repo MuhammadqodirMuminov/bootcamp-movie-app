@@ -6,6 +6,7 @@ import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "src/context/auth.context";
 import logo from "../../public/logo.svg";
 import Link from "next/link";
+import NavItem from "../navItem/navItem";
 
 const Header = () => {
 	const [scrolled, setScrolled] = useState(false);
@@ -39,6 +40,9 @@ const Header = () => {
 					height={56}
 					className={"cursor-pointer object-contain"}
 				/>
+
+				<NavItem />
+
 				<ul className="space-x-4 md:flex hidden">
 					<li className="navLink">Home</li>
 					<li className="navLink">Movies</li>
