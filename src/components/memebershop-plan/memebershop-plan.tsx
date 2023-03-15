@@ -1,4 +1,7 @@
-const MemebershopPlan = () => {
+import { MemeberShipPlanProps } from "./subscription-plan.props";
+import moment from "moment"
+
+const MemebershopPlan = ({ subscription }: MemeberShipPlanProps) => {
 	return (
 		<div className="mt-6 grid grid-cols-1 gap-x-4 border px-4 py-4 md:grid-cols-4 md:bordder-x-0 md:border-t md:border-b-0 md:pb-0">
 			<div className=" space-y-2 py-4">
@@ -10,7 +13,7 @@ const MemebershopPlan = () => {
 			<div className=" col-span-3 ">
 				<div className="flex flex-col justify-between border-b border-white/10 py-4 md:flex-row">
 					<div>
-						<p className=" font-medium"> info@Sammi.ac</p>
+						<p className=" font-medium"> {subscription.customer.email}</p>
 						<p className=" tex-[gray]"> Password: ******</p>
 					</div>
 					<div className=" md:text-right">
@@ -21,7 +24,12 @@ const MemebershopPlan = () => {
 
 				<div className=" flex flex-col justify-between pt-4 pb-4 md:flex-row  md:pb-0">
 					<div>
-						<p>Your Memebership Plan will end 14 March 2023</p>
+						<p>
+							Your Memebership Plan will end{" "}
+							{moment(subscription.current_period_end * 1000).format(
+								"DD MMM , YYYY"
+							)}
+						</p>
 					</div>
 					<div className=" md:text-right">
 						<p className=" membershipLink">Manage Payment Info</p>
