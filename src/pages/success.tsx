@@ -21,7 +21,7 @@ const Success = () => {
 				<h1 className=" text-2xl md:text-5xl mt-4">Success Subscription</h1>
 				<Link href={"/"}>
 					<button className=" mt-4 bg-[#3fd93f] py-4 px-5 rounded">
-						Choose Plan
+						Dashboard
 					</button>
 				</Link>
 			</div>

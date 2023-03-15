@@ -11,7 +11,7 @@ const SubscriptionPlan = ({ products }: ISubscription) => {
 	const { logOut } = useAuth();
 
 	return (
-		<div className="min-h-screen ">
+		<div className="min-h-screen mt-20">
 			<div className="  border-b-2 border-gray-300/20 h-[10vh] flex items-center justify-between px-4 md:px-10">
 				<Image
 					src={logo}
